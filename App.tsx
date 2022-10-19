@@ -1,19 +1,10 @@
-import React from "react";
-import { View } from "react-native";
-import { AirbnbRating, Button, Avatar, Badge } from "react-native-elements";
-import styles from "./AppStyle";
+import { AirbnbRating, Avatar, Badge } from "react-native-elements";
+import { Container, Box, Title, CustomBox, StyledButton } from "./AppStyle";
 
 const App = () => {
   return (
-    <View style={styles.container}>
-      <View
-        style={[
-          styles.viewBox,
-          {
-            marginBottom: 30,
-          },
-        ]}
-      >
+    <Container>
+      <Box>
         <AirbnbRating
           count={10}
           reviews={[
@@ -31,7 +22,8 @@ const App = () => {
           defaultRating={10}
           size={20}
         />
-        <View>
+        <Title>Teste Título</Title>
+        <Box>
           <Avatar
             rounded
             source={{ uri: "https://randomuser.me/api/portraits/men/41.jpg" }}
@@ -42,8 +34,8 @@ const App = () => {
             status="error"
             containerStyle={{ position: "absolute", top: 5, left: 0 }}
           />
-        </View>
-        <Button
+        </Box>
+        <StyledButton
           title={"React Native Elements"}
           containerStyle={{
             width: 200,
@@ -51,8 +43,9 @@ const App = () => {
             marginVertical: 10,
           }}
         />
-      </View>
-    </View>
+        <CustomBox color="#f2c8f2" />
+      </Box>
+    </Container>
   );
 };
 
