@@ -1,12 +1,19 @@
 import React from "react";
+import { View, FlatList } from "react-native";
 
 import Colors from "../../Styles/Colors";
 import IPerson from "../../Interfaces/IPerson";
 
 import {
+  ContainerItem,
   MainSafeAreaView,
   StyledActivityIndicator,
-  TextTitle,  
+  TextNameStyle,
+  TextsView,
+  TextTitle,
+  TextDetail,
+  Separator,
+  StyledImage,
 } from "./HomeStyles";
 
 type iProps = {
@@ -22,6 +29,38 @@ const HomeView = ({
 }: iProps) => {
   
 
+  const RenderItem = ({ item }: { item: IPerson }) => {
+    
+    return (
+      <ContainerItem onPress={() => goToDetail(item)}>
+        <>
+          <TextsView>
+            <View>
+              <StyledImage source={{ uri: item.image }} />
+            </View>
+            <View>
+              <TextNameStyle>
+                <TextTitle>
+                  {item.firstName} {item.lastName}
+                </TextTitle>
+              </TextNameStyle>
+              <TextNameStyle>
+                <TextDetail>
+                  {item.address} - {item.state} - {item.zipCode}
+                </TextDetail>
+              </TextNameStyle>
+              <TextNameStyle>
+                <TextDetail>{item.jobTitle}</TextDetail>
+              </TextNameStyle>
+            </View>
+          </TextsView>
+          <Separator />
+        </>
+      </ContainerItem>
+    );
+  };
+
+
   let loadingBox = null;
   if (isLoading) {
     loadingBox = (
@@ -29,16 +68,14 @@ const HomeView = ({
     );
   }
 
-  let name = ""
-  if(dataConnection && dataConnection.length > 0 ){
-    console.log(dataConnection);
-    let info = dataConnection[0];
-    name = info.firstName + " " + info.lastName;
-  }
   return (
     <MainSafeAreaView>
       {loadingBox}
-      <TextTitle>{name}</TextTitle>
+      <FlatList
+        data={dataConnection}
+        renderItem={({item}: { item: IPerson}) => <RenderItem item={item} />}
+        keyExtractor={(item: IPerson) => item.CPF.toString()}
+      />
     </MainSafeAreaView>
   );
 };

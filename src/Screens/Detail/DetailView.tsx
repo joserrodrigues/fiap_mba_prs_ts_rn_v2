@@ -1,23 +1,54 @@
 import React from "react";
-import { Text } from "react-native";
-import { StackNavigationProp } from "@react-navigation/stack";
-import { RootStackParamList } from "../../Routes/RouteController";
-import { StyledButton } from "../../Styles/ButtonStyle";
+import { ScrollView } from "react-native";
 
-type iProps = {
-  navigation: StackNavigationProp<RootStackParamList, "Details">;
-  itemID: number;
-  info: string;
+import {
+  MainContainer,
+  TextName,
+  TextTitle,
+  TextDetail,
+  TextNoInfo,
+  StyledImage,
+} from "./DetailStyles";
+import Person from "../../Interfaces/IPerson";
+
+type iProps = {  
+  objectItem: Person | null;
 };
-const DetailView = ({ navigation, itemID, info }: iProps) => {
-  let { name, email } = JSON.parse(info);
+const DetailView = ({ objectItem }: iProps) => {
+  if (!objectItem) {
+    return (
+      <>
+        <TextNoInfo>Sem informações</TextNoInfo>
+      </>
+    );
+  }
   return (
-    <>
-      <Text>{itemID}</Text>
-      <Text>Name = {name}</Text>
-      <Text>Email = {email}</Text>
-      <StyledButton title="Próximo" onPress={() => navigation.goBack()} />
-    </>
+    <MainContainer>
+      <ScrollView>
+        <StyledImage source={{ uri: objectItem.image }} />
+        <TextName>
+          {objectItem.firstName} {objectItem.lastName}
+        </TextName>
+        <TextTitle>Endereço</TextTitle>
+        <TextDetail>
+          {objectItem.firstName} {objectItem.lastName}
+        </TextDetail>
+        <TextTitle>Ocupação</TextTitle>
+        <TextDetail>{objectItem.jobTitle}</TextDetail>
+        <TextTitle>Tipo</TextTitle>
+        <TextDetail>
+          {objectItem.jobType} / {objectItem.jobArea}
+        </TextDetail>
+        <TextTitle>Endereço</TextTitle>
+        <TextDetail>{objectItem.address}</TextDetail>
+        <TextDetail>{objectItem.zipCode}</TextDetail>
+        <TextDetail>
+          {objectItem.city} / {objectItem.state} / {objectItem.coutry}
+        </TextDetail>
+        <TextTitle>Telefone</TextTitle>
+        <TextDetail>{objectItem.phone}</TextDetail>
+      </ScrollView>
+    </MainContainer>
   );
 };
 
