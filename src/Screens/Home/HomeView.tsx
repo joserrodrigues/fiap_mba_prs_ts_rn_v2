@@ -1,10 +1,10 @@
 import React from "react";
 import { View, Text } from "react-native";
+import { StyledButton } from "../../Styles/ButtonStyle";
 import {
   BottomButton,
   BottomScreen,
   MainContainer,
-  StyledButton,
   StyledImage,
   TextBlock,
   TextBoxContainer,
@@ -12,7 +12,12 @@ import {
   TopScreen,
 } from "./HomeStyles";
 
-const HomeView = () => {
+
+type iProps = {
+  goNextScreen: () => void;
+};
+
+const HomeView = ({ goNextScreen }: iProps) => {
   return (
     <MainContainer>
       <TopScreen>
@@ -51,7 +56,7 @@ const HomeView = () => {
         </TextBoxContainer>
         <BottomButton>
           <StyledButton title="Anterior" />
-          <StyledButton title="Próximo" />
+          <StyledButton title="Próximo" onPress={goNextScreen} />
         </BottomButton>
       </BottomScreen>
     </MainContainer>

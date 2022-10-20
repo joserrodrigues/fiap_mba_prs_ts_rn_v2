@@ -1,6 +1,7 @@
 import { StyleSheet } from "react-native";
 import styled from "styled-components/native";
-import { Button, Image } from "react-native-elements";
+import { Image } from "react-native-elements";
+import Colors from "../../Styles/Colors";
 
 export const MainContainer = styled.View`
   flex: 1;
@@ -18,7 +19,7 @@ export const TitlePage = styled.Text`
   margin: 20px;
   font-size: 30px;
   text-align: center;
-  color: red;
+  color: ${Colors.PrimaryDark};
 `;
 
 export const StyledImage = styled(Image).attrs({
@@ -38,7 +39,7 @@ export const TextBlock = styled.View`
   margin: 15px;
   border-radius: 15px;
   border-width: 1px;
-  border-color: red;
+  border-color: ${Colors.PrimaryDark};
   padding: 20px;
 `;
 
@@ -47,15 +48,3 @@ export const BottomButton = styled.View`
   flex-direction: row;
   justify-content: space-evenly;
 `;
-
-export const StyledButton = styled(Button).attrs({
-  buttonStyle: {
-    backgroundColor: "red",
-    borderRadius: 10,
-  },
-  containerStyle: {
-    width: "35%",
-    marginHorizontal: 20,
-    marginVertical: 10,
-  },
-})``;
