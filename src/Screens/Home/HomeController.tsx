@@ -1,24 +1,53 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import HomeView from "./HomeView";
-import { registerRootComponent } from "expo";
 import { StackScreenProps } from "@react-navigation/stack";
 import { RootStackParamList } from "../../Routes/RouteController";
+
+import useAPI from "../../Services/APIs/Common/useAPI";
+import PersonsAPI from "../../Services/APIs/Persons/Persons";
+import IPerson from "../../Interfaces/IPerson";
 
 type iProps = StackScreenProps<RootStackParamList, "Home">;
 
 const HomeController = ({ route, navigation }: iProps) => {
-  function goNextScreen() {
-    let obje = {
-      name: "Nm 1",
-      email: "a@a.com",
-    };
 
-    navigation.navigate("Details", {
-      itemID: 184,
-      info: JSON.stringify(obje),
+  const [dataConnection, setDataConnection] = useState<IPerson[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  const getPersonsGetAPI = useAPI(PersonsAPI.getAllPersons);
+
+  useEffect(() => {
+    getDataPage();
+  }, []);
+
+  const getDataPage = () => {
+    setIsLoading(true);
+    getPersonsGetAPI
+      .requestPromise()
+      .then((info: any) => {
+        setIsLoading(false);
+        setDataConnection(info.persons);
+      })
+      .catch((error: string) => {
+        console.log(error);
+      });
+  };
+
+  const goToDetail = (item: IPerson) => {
+    navigation.push("Details", {
+      itemID: item.id,
+      info: JSON.stringify(item),
     });
-  }
-  return <HomeView goNextScreen={goNextScreen} />;
+  };
+
+  return (
+    <HomeView
+      dataConnection={dataConnection}
+      isLoading={isLoading}
+      goToDetail={goToDetail}
+    />
+  );
+
 };
 
 export default HomeController;
