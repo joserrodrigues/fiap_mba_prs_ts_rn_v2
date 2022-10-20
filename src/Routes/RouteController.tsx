@@ -2,13 +2,19 @@ import "react-native-gesture-handler";
 import * as React from "react";
 import { Button, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
-import { createDrawerNavigator } from "@react-navigation/drawer";
+import { createStackNavigator, StackNavigationOptions } from "@react-navigation/stack";
+import { createDrawerNavigator, DrawerNavigationOptions } from "@react-navigation/drawer";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { registerRootComponent } from "expo";
 
 import HomeController from "../Screens/Home/HomeController";
 import DetailController from "../Screens/Detail/DetailController";
+import Colors from "../Styles/Colors";
+
+export type RootDrawerParamList = {
+  Main: undefined;
+  Notifications: undefined;
+};
 
 export type RootStackParamList = {
   Home: undefined;
@@ -20,33 +26,56 @@ const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator();
 
 const RouteController = () => {
+    let screenOptions:StackNavigationOptions = {
+      headerShown: true,
+      headerStyle: {
+        backgroundColor: Colors.HeaderBackgroundColor,
+      },
+      headerTintColor: Colors.HeaderTintColor,
+    };
+
+    let drawerNavigation: DrawerNavigationOptions = {
+      headerShown: false,
+      drawerActiveTintColor: Colors.HeaderTintColor,
+      drawerInactiveTintColor: Colors.NeutralMedium,
+      drawerStyle: {
+        backgroundColor: Colors.HeaderBackgroundColor,
+        width: 240,
+      },
+    };
+
     const StackHome = () => {
-        return (
+      return (
         <Stack.Navigator>
-            <Stack.Screen
+          <Stack.Screen
             name="Home"
             component={HomeController}
-            options={{ title: "Lista", headerShown: false }}
-            />
-            <Stack.Screen
+            options={screenOptions}
+          />
+          <Stack.Screen
             name="Details"
             component={DetailController}
-            options={{ title: "Detalhe" }}
-            />
+            options={screenOptions}
+          />
         </Stack.Navigator>
-        );
+      );
     };
 
     return (
-        <NavigationContainer>
+      <NavigationContainer>
         <Drawer.Navigator initialRouteName="Main">
-            <Drawer.Screen name="Main" component={StackHome} />
-            <Drawer.Screen
+          <Drawer.Screen
+            name="Main"
+            component={StackHome}
+            options={{ drawerLabel: "Main", ...drawerNavigation }}
+          />
+          <Drawer.Screen
             name="Notifications"
             component={DetailController}
-            />
+            options={{ drawerLabel: "Detail", ...drawerNavigation }}
+          />
         </Drawer.Navigator>
-        </NavigationContainer>
+      </NavigationContainer>
     );
 }
 

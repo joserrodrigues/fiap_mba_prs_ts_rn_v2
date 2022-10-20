@@ -30,7 +30,7 @@ export const TextNoInfo = styled.Text`
   margin-top: 150px;
   font-size: 30px;
   color: ${Colors.NeutralDark};
-  text-align: "center";
+  text-align: center;
 `;
 
 export const StyledImage = styled(Image).attrs({

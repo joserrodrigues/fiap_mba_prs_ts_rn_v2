@@ -15,6 +15,7 @@ import {
   Separator,
   StyledImage,
 } from "./HomeStyles";
+import DrawerMenu from "../../Components/DrawerMenu/DrawerMenu";
 
 type iProps = {
   dataConnection: IPerson[];
@@ -70,10 +71,11 @@ const HomeView = ({
 
   return (
     <MainSafeAreaView>
+      <DrawerMenu />
       {loadingBox}
       <FlatList
         data={dataConnection}
-        renderItem={({item}: { item: IPerson}) => <RenderItem item={item} />}
+        renderItem={({ item }: { item: IPerson }) => <RenderItem item={item} />}
         keyExtractor={(item: IPerson) => item.CPF.toString()}
       />
     </MainSafeAreaView>
