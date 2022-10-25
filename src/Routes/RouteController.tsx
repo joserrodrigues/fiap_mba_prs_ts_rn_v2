@@ -9,16 +9,18 @@ import { registerRootComponent } from "expo";
 
 import HomeController from "../Screens/Home/HomeController";
 import DetailController from "../Screens/Detail/DetailController";
+import MyPositionController from "../Screens/MyPosition/MyPositionController";
 import Colors from "../Styles/Colors";
 
 export type RootDrawerParamList = {
   Main: undefined;
-  Notifications: undefined;
+  MyPositionDrawer: undefined;  
 };
 
 export type RootStackParamList = {
   Home: undefined;
   Details: { itemID: number; info: string };
+  MyPosition: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -61,6 +63,18 @@ const RouteController = () => {
       );
     };
 
+    const StackMyPosition = () => {
+      return (
+        <Stack.Navigator>
+          <Stack.Screen
+            name="MyPosition"
+            component={MyPositionController}
+            options={{ ...screenOptions, title: "Minha Posição" }}
+          />
+        </Stack.Navigator>
+      );
+    };
+
     return (
       <NavigationContainer>
         <Drawer.Navigator initialRouteName="Main">
@@ -70,9 +84,9 @@ const RouteController = () => {
             options={{ drawerLabel: "Main", ...drawerNavigation }}
           />
           <Drawer.Screen
-            name="Notifications"
-            component={DetailController}
-            options={{ drawerLabel: "Detail", ...drawerNavigation }}
+            name="MyPositionDrawer"
+            component={StackMyPosition}
+            options={{ drawerLabel: "Minha Posição", headerShown: false }}
           />
         </Drawer.Navigator>
       </NavigationContainer>
