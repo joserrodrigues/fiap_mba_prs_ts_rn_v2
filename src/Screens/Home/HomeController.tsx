@@ -6,6 +6,7 @@ import { RootStackParamList } from "../../Routes/RouteController";
 import useAPI from "../../Services/APIs/Common/useAPI";
 import PersonsAPI from "../../Services/APIs/Persons/Persons";
 import IPerson from "../../Interfaces/IPerson";
+import { useGetToken } from "../../Services/Notification/useManageNotification";
 
 type iProps = StackScreenProps<RootStackParamList, "Home">;
 
@@ -17,10 +18,12 @@ const HomeController = ({ route, navigation }: iProps) => {
   const getPersonsGetAPI = useAPI(PersonsAPI.getAllPersons);
 
   useEffect(() => {
-    getDataPage();
+    getDataPage();    
   }, []);
 
-  const getDataPage = () => {
+  const getDataPage = async () => {
+    let token = await useGetToken();
+    
     setIsLoading(true);
     getPersonsGetAPI
       .requestPromise()

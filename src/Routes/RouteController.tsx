@@ -11,6 +11,7 @@ import HomeController from "../Screens/Home/HomeController";
 import DetailController from "../Screens/Detail/DetailController";
 import MyPositionController from "../Screens/MyPosition/MyPositionController";
 import Colors from "../Styles/Colors";
+import { useManageNotification } from "../Services/Notification/useManageNotification";
 
 export type RootDrawerParamList = {
   Main: undefined;
@@ -27,7 +28,9 @@ const Stack = createStackNavigator<RootStackParamList>();
 const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator();
 
-const RouteController = () => {
+const RouteController = () => {    
+    useManageNotification();
+
     let screenOptions:StackNavigationOptions = {
       headerShown: true,
       headerStyle: {
