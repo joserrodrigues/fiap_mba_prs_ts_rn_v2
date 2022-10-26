@@ -28,16 +28,33 @@ const Stack = createStackNavigator<RootStackParamList>();
 const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator();
 
+let screenOptions: StackNavigationOptions = {
+  headerShown: true,
+  headerStyle: {
+    backgroundColor: Colors.HeaderBackgroundColor,
+  },
+  headerTintColor: Colors.HeaderTintColor,
+};
+
+export const StackHome = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Home"
+        component={HomeController}
+        options={screenOptions}
+      />
+      <Stack.Screen
+        name="Details"
+        component={DetailController}
+        options={screenOptions}
+      />
+    </Stack.Navigator>
+  );
+};
+
 const RouteController = () => {    
     useManageNotification();
-
-    let screenOptions:StackNavigationOptions = {
-      headerShown: true,
-      headerStyle: {
-        backgroundColor: Colors.HeaderBackgroundColor,
-      },
-      headerTintColor: Colors.HeaderTintColor,
-    };
 
     let drawerNavigation: DrawerNavigationOptions = {
       headerShown: false,
@@ -47,23 +64,6 @@ const RouteController = () => {
         backgroundColor: Colors.HeaderBackgroundColor,
         width: 240,
       },
-    };
-
-    const StackHome = () => {
-      return (
-        <Stack.Navigator>
-          <Stack.Screen
-            name="Home"
-            component={HomeController}
-            options={screenOptions}
-          />
-          <Stack.Screen
-            name="Details"
-            component={DetailController}
-            options={screenOptions}
-          />
-        </Stack.Navigator>
-      );
     };
 
     const StackMyPosition = () => {

@@ -33,7 +33,10 @@ const HomeView = ({
   const RenderItem = ({ item }: { item: IPerson }) => {
     
     return (
-      <ContainerItem onPress={() => goToDetail(item)}>
+      <ContainerItem
+        onPress={() => goToDetail(item)}
+        testID={"button" + item.CPF.toString()}
+      >
         <>
           <TextsView>
             <View>
@@ -65,7 +68,11 @@ const HomeView = ({
   let loadingBox = null;
   if (isLoading) {
     loadingBox = (
-      <StyledActivityIndicator size="large" color={Colors.PrimaryDark} />
+      <StyledActivityIndicator
+        size="large"
+        color={Colors.PrimaryDark}
+        testID="activityLoading"
+      />
     );
   }
 
@@ -77,6 +84,7 @@ const HomeView = ({
         data={dataConnection}
         renderItem={({ item }: { item: IPerson }) => <RenderItem item={item} />}
         keyExtractor={(item: IPerson) => item.CPF.toString()}
+        testID="flatListHome"
       />
     </MainSafeAreaView>
   );
