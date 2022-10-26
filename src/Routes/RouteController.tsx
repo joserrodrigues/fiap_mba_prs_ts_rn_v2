@@ -13,6 +13,13 @@ import MyPositionController from "../Screens/MyPosition/MyPositionController";
 import Colors from "../Styles/Colors";
 import { useManageNotification } from "../Services/Notification/useManageNotification";
 
+import LoginController from "../Screens/Login/LoginController";
+import { PersistGate } from "redux-persist/integration/react";
+import { persistor, store } from "../Store/store";
+
+import { Provider } from "react-redux";
+import { useAppSelector } from "../Store/hooks";
+
 export type RootDrawerParamList = {
   Main: undefined;
   MyPositionDrawer: undefined;  
@@ -78,6 +85,8 @@ const RouteController = () => {
       );
     };
 
+  const userInfo = useAppSelector((state) => state.login.user);
+  if (userInfo && userInfo.token !== "") {
     return (
       <NavigationContainer>
         <Drawer.Navigator initialRouteName="Main">
@@ -89,11 +98,43 @@ const RouteController = () => {
           <Drawer.Screen
             name="MyPositionDrawer"
             component={StackMyPosition}
-            options={{ drawerLabel: "Minha Posição", headerShown: false }}
+            options={{
+              drawerLabel: "Minha Posição",
+              headerShown: false,
+              ...drawerNavigation,
+            }}
           />
         </Drawer.Navigator>
       </NavigationContainer>
     );
+  } else {
+    return (
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <NavigationContainer>
+            <Stack.Navigator>
+              <Stack.Screen
+                name="MyPosition"
+                component={LoginController}
+                options={{ headerShown: false }}
+              />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </PersistGate>
+      </Provider>
+    );
+  }
+
 }
 
-export default registerRootComponent(RouteController);
+const RouteControllerManagement = () => {
+  return (
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <RouteController />
+      </PersistGate>
+    </Provider>
+  );
+};
+
+export default registerRootComponent(RouteControllerManagement);
